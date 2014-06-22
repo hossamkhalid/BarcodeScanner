@@ -29,16 +29,20 @@
         <script src="js/jquery.mobile-1.4.2.js"></script>
         <meta name="msapplication-tap-highlight" content="no" />
         <title>Hello World</title>
+        <script type="text/javascript">
+            window.history.forward();
+            function noBack() { window.history.forward(); }
+        </script>
     </head>
-    <body>
+    <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
-        <div data-role="page" id="loginPage">
-            
-            <div data-role="header" data-theme="b">
-                <a href="index.html" data-icon="delete">Cancel</a>
-                <h1>Barcode Scanner</h1>
-                <a href="index.html" data-icon="delete">Cancel</a>
-            </div>
+    <div data-role="page" id="loginPage">
+
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
+        </div>
+
+        <div data-role="main" class="ui-content">
 
             <div class="app">
                 <form>
@@ -60,18 +64,16 @@
                     var username = $('#txtUsername').val();
                     var password = $('#txtPassword').val();
 
-                    Url = "http://192.168.0.3:81/RestServiceImpl.svc/Login?username="+username+"&password="+password;
+                    Url = "http://192.168.0.3:81/RestServiceImpl.svc/Login?username=" + username + "&password=" + password;
 
                     $.ajax({
                         type: "GET",
                         url: Url,
                         success: function (msg) {
-                            if (msg != "")
-                            {
+                            if (msg != "") {
                                 $.mobile.changePage("#controlPage", { transition: "slide" });
                                 $("#controlList").html("");
-                                if(msg.HasAccessToFn1)
-                                {
+                                if (msg.HasAccessToFn1) {
                                     $("#controlList").append('<li><a href="#" id="ctrF1">Acura1</a></li>');
                                     $("#ctrF1").click(function () {
                                         $.mobile.changePage("#loginPage", { transition: "slide" });
@@ -108,13 +110,12 @@
 
                                 $('#controlList').listview('refresh');
                             }
-                            else
-                            {
+                            else {
                                 $("#loginError").dialog().fadeIn();
                                 $("#loginError").click(function () {
                                     $("#loginError").dialog().fadeOut();
                                 });
-                            }                            
+                            }
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             $('#error').html(XMLHttpRequest.responseText);
@@ -133,14 +134,13 @@
                 }
             </script>
         </div>
-        <div data-role="dialog" id="loginError">Incorrect username/password!</div>
-        <div data-role="page" id="controlPage">
-            <br />
-            <br />
-            <ul data-role="listview" data-inset="true" style="margin: 10px;" id="controlList">
-                
-            </ul>
-            
+    </div>
+    <div data-role="dialog" id="loginError">Incorrect username/password!</div>
+    <div data-role="page" id="controlPage">
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
         </div>
-    </body>
+        <ul data-role="listview" data-inset="true" style="margin: 10px;" id="controlList"></ul>
+    </div>
+    </>
 </html>
