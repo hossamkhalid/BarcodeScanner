@@ -54,7 +54,7 @@
                     var username = $('#txtUsername').val();
                     var password = $('#txtPassword').val();
 
-                    Url = "http://192.168.0.3:2964/RestServiceImpl.svc/Login?username="+username+"&password="+password;
+                    Url = "http://192.168.0.3:81/RestServiceImpl.svc/Login?username="+username+"&password="+password;
 
                     $.ajax({
                         type: "GET",
@@ -64,8 +64,7 @@
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             $('#error').html(XMLHttpRequest.responseText);
-                        },
-                        dataType: DataType
+                        }
                     });
                 }
 
