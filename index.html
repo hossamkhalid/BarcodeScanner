@@ -25,37 +25,58 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.css" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <script src="js/jquery.js"></script>
         <script src="js/jquery.mobile-1.4.2.js"></script>
         <meta name="msapplication-tap-highlight" content="no" />
         <title>Hello World</title>
     </head>
     <body>
-        <h1>Barcode Scanner</h1>
+        <div data-role="page" id="loginPage">
+            <h1>Barcode Scanner</h1>
 
-        <div class="app">
-            <form>
-                <label for="text-7">Username</label>
-                <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
-                    <input type="text" data-clear-btn="true" name="text-7" id="text-7" value="" placeholder="Username">
-                    <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a>
-                </div>
-                <br />
-                <label for="password-2">Password</label>
-                <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
-                    <input type="password" data-clear-btn="true" name="password-2" id="password-2" value="" autocomplete="off" placeholder="Password">
-                    <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a>
-                </div>      
-                <br />          
-                <a class="ui-btn ui-btn-b ui-corner-all" id="btnLogin">Login</a>
-            </form>
+            <div class="app">
+                <form>
+                    <label for="text-3">Username</label>
+                    <input type="text" data-clear-btn="true" name="txtUsername" id="txtUsername" value="" placeholder="Username">
+                    <br />
+                    <label for="password-2">Password</label>
+                    <input type="password" data-clear-btn="true" name="txtPassword" id="txtPassword" value="" autocomplete="off" placeholder="Password">
+                    <br />
+                    <a class="ui-btn ui-btn-b ui-corner-all" id="btnLogin" onclick="login()">Login</a>
+                </form>
+            </div>
+            <script type="text/javascript" src="js/cordova.js"></script>
+            <script type="text/javascript" src="js/index.js"></script>
+            <script type="text/javascript">
+                app.initialize();
+
+                function login() {
+                    var username = $('#txtUsername').val();
+                    var password = $('#txtPassword').val();
+                    
+                    Type = "POST";
+                    Url = "http://localhost:2964/RestServiceImpl.svc/Login";
+                    Data = '{"Username": "' + username + '","Password": "'+password+'"}';
+                    ContentType = "application/json; charset=utf-8";
+                    DataType = "json";
+                    varProcessData = true;
+                    //alert(Data);
+                    $.post("test.php", { Username: "test", Password: "test" })
+                          .done(function (data) {
+                              alert("Data Loaded: " + data);
+                          });
+                }
+
+                function ServiceFailed(result) {
+                    alert('Service call failed: ' + result.status + '' + result.statusText);
+                    Type = null;
+                    varUrl = null;
+                    Data = null;
+                    ContentType = null;
+                    DataType = null;
+                    ProcessData = null;
+                }
+            </script>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-            $("#btnLogin").bind("click", function (event) {
-                alert("click");
-            });
-        </script>
     </body>
 </html>
