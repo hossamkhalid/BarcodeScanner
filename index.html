@@ -53,22 +53,12 @@
                 function login() {
                     var username = $('#txtUsername').val();
                     var password = $('#txtPassword').val();
-                    
-                    Type = "POST";
-                    Url = "http://localhost:2964/RestServiceImpl.svc/Login";
 
-                    Data = '{"Username": "' + username + '" ,"Password": "' + password + '"}';
-                    ContentType = "application/json";
-                    DataType = "json";
-                    varProcessData = true;
-
+                    Url = "http://192.168.0.3:2964/RestServiceImpl.svc/Login?username="+username+"&password="+password;
 
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         url: Url,
-                        dataType: "text",
-                        contentType: "application/json",
-                        data: Data,
                         success: function (msg) {
                             alert("Data Saved: " + msg);
                         },
