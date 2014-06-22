@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        document.getElementById('btnFn1Scan').addEventListener('click', this.scan, false);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -46,6 +47,40 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
+    scan: function () {
+        console.log('scanning');
+
+        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+        scanner.scan(function (result) {
+
+            alert("We got a barcode\n" +
+            "Result: " + result.text + "\n" +
+            "Format: " + result.format + "\n" +
+            "Cancelled: " + result.cancelled);
+
+            console.log("Scanner result: \n" +
+                 "text: " + result.text + "\n" +
+                 "format: " + result.format + "\n" +
+                 "cancelled: " + result.cancelled + "\n");
+            document.getElementById("info").innerHTML = result.text;
+            console.log(result);
+        }, function (error) {
+            console.log("Scanning failed: ", error);
+        });
+    },
+
+    encode: function () {
+        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+        scanner.encode(scanner.Encode.TEXT_TYPE, "http://www.nhl.com", function (success) {
+            alert("encode success: " + success);
+        }, function (fail) {
+            alert("encoding failed: " + fail);
+        }
+        );
+
+    }
 };
 
 

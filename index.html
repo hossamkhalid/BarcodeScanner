@@ -18,23 +18,23 @@
     under the License.
 -->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=high-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.css" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <script src="js/jquery.js"></script>
-        <script src="js/jquery.mobile-1.4.2.js"></script>
-        <meta name="msapplication-tap-highlight" content="no" />
-        <title>Hello World</title>
-        <script type="text/javascript">
-            window.history.forward();
-            function noBack() { window.history.forward(); }
-        </script>
-    </head>
-    <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=high-dpi" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.2.js"></script>
+    <meta name="msapplication-tap-highlight" content="no" />
+    <title>Hello World</title>
+    <script type="text/javascript">
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </script>
+</head>
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
     <div data-role="page" id="loginPage">
 
@@ -53,6 +53,8 @@
                     <input type="password" data-clear-btn="true" name="txtPassword" id="txtPassword" value="" autocomplete="off" placeholder="Password">
                     <br />
                     <a class="ui-btn ui-btn-b ui-corner-all" id="btnLogin" onclick="login()">Login</a>
+                    <a class="ui-btn ui-btn-b ui-corner-all" id="btnFn1Scan" onclick="login()">Scan</a>
+                    
                 </form>
             </div>
             <script type="text/javascript" src="cordova.js"></script>
@@ -76,20 +78,29 @@
                                 if (msg.HasAccessToFn1) {
                                     $("#controlList").append('<li><a href="#" id="ctrF1">Acura1</a></li>');
                                     $("#ctrF1").click(function () {
-                                        $.mobile.changePage("#loginPage", { transition: "slide" });
+                                        $.mobile.changePage("#pageF1", { transition: "slide" });
                                     });
                                 }
 
                                 if (msg.HasAccessToFn2) {
                                     $("#controlList").append('<li><a href="#" id="ctrF2">Acura2</a></li>');
+                                    $("#ctrF2").click(function () {
+                                        $.mobile.changePage("#pageF2", { transition: "slide" });
+                                    });
                                 }
 
                                 if (msg.HasAccessToFn3) {
                                     $("#controlList").append('<li><a href="#" id="ctrF3">Acura3</a></li>');
+                                    $("#ctrF3").click(function () {
+                                        $.mobile.changePage("#pageF3", { transition: "slide" });
+                                    });
                                 }
 
                                 if (msg.HasAccessToFn4) {
                                     $("#controlList").append('<li><a href="#" id="ctrF4">Acura4</a></li>');
+                                    $("#ctrF4").click(function () {
+                                        $.mobile.changePage("#pageF4", { transition: "slide" });
+                                    });
                                 }
 
                                 if (msg.HasAccessToFn5) {
@@ -142,5 +153,29 @@
         </div>
         <ul data-role="listview" data-inset="true" style="margin: 10px;" id="controlList"></ul>
     </div>
-    </>
+    <div data-role="page" id="pageF1">
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
+        </div>
+        Function 1
+    </div>
+    <div data-role="page" id="pageF2">
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
+        </div>
+        Function 2
+    </div>
+    <div data-role="page" id="pageF3">
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
+        </div>
+        Function 3
+    </div>
+    <div data-role="page" id="pageF4">
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
+        </div>
+        Function 4
+    </div>
+</body>
 </html>
