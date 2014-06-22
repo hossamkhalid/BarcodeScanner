@@ -45,7 +45,7 @@
                     <a class="ui-btn ui-btn-b ui-corner-all" id="btnLogin" onclick="login()">Login</a>
                 </form>
             </div>
-            <script type="text/javascript" src="js/cordova.js"></script>
+            <script type="text/javascript" src="cordova.js"></script>
             <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript">
                 app.initialize();
@@ -56,15 +56,27 @@
                     
                     Type = "POST";
                     Url = "http://localhost:2964/RestServiceImpl.svc/Login";
-                    Data = '{"Username": "' + username + '","Password": "'+password+'"}';
-                    ContentType = "application/json; charset=utf-8";
+
+                    Data = '{"Username": "' + username + '" ,"Password": "' + password + '"}';
+                    ContentType = "application/json";
                     DataType = "json";
                     varProcessData = true;
-                    //alert(Data);
-                    $.post("test.php", { Username: "test", Password: "test" })
-                          .done(function (data) {
-                              alert("Data Loaded: " + data);
-                          });
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: Url,
+                        dataType: "text",
+                        contentType: "application/json",
+                        data: Data,
+                        success: function (msg) {
+                            alert("Data Saved: " + msg);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $('#error').html(XMLHttpRequest.responseText);
+                        },
+                        dataType: DataType
+                    });
                 }
 
                 function ServiceFailed(result) {
