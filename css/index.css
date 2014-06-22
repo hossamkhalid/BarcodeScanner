@@ -53,15 +53,6 @@ body {
     }
 }
 
-h1 {
-    margin:0px;
-    overflow:visible;
-    text-align:center;
-    background-color: #000000;
-    padding: 20px;
-    color: #f3ebb6;
-}
-
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;

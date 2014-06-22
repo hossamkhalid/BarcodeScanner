@@ -32,7 +32,12 @@
     </head>
     <body>
         <div data-role="page" id="loginPage">
-            <h1>Barcode Scanner</h1>
+            <div data-role="header" data-theme="b">
+                <a href="index.html" data-icon="delete">Cancel</a>
+                <h1>Barcode Scanner</h1>
+                <a href="index.html" data-icon="delete">Cancel</a>
+            </div>
+
 
             <div class="app">
                 <form>
@@ -60,7 +65,55 @@
                         type: "GET",
                         url: Url,
                         success: function (msg) {
-                            alert("Data Saved: " + msg);
+                            if (msg != "")
+                            {
+                                $.mobile.changePage("#controlPage", { transition: "slide" });
+                                $("#controlList").html("");
+                                if(msg.HasAccessToFn1)
+                                {
+                                    $("#controlList").append('<li><a href="#" id="ctrF1">Acura1</a></li>');
+                                    $("#ctrF1").click(function () {
+                                        $.mobile.changePage("#loginPage", { transition: "slide" });
+                                    });
+                                }
+
+                                if (msg.HasAccessToFn2) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF2">Acura2</a></li>');
+                                }
+
+                                if (msg.HasAccessToFn3) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF3">Acura3</a></li>');
+                                }
+
+                                if (msg.HasAccessToFn4) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF4">Acura4</a></li>');
+                                }
+
+                                if (msg.HasAccessToFn5) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF5">Acura5</a></li>');
+                                }
+
+                                if (msg.HasAccessToFn6) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF6">Acura6</a></li>');
+                                }
+
+                                if (msg.HasAccessToFn7) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF7">Acura7</a></li>');
+                                }
+
+                                if (msg.HasAccessToFn8) {
+                                    $("#controlList").append('<li><a href="#" id="ctrF8">Acura8</a></li>');
+                                }
+
+                                $('#controlList').listview('refresh');
+                            }
+                            else
+                            {
+                                $("#loginError").dialog().fadeIn();
+                                $("#loginError").click(function () {
+                                    $("#loginError").dialog().fadeOut();
+                                });
+                            }                            
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             $('#error').html(XMLHttpRequest.responseText);
@@ -78,6 +131,19 @@
                     ProcessData = null;
                 }
             </script>
+        </div>
+        <div data-role="dialog" id="loginError">Incorrect username/password!</div>
+        <div data-role="page" id="controlPage">
+            <div data-role="header" data-theme="b">
+
+                <h1>Edit Contact</h1>
+            </div>
+            <br />
+            <br />
+            <ul data-role="listview" data-inset="true" style="margin: 10px;" id="controlList">
+                
+            </ul>
+            
         </div>
     </body>
 </html>
