@@ -27,6 +27,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.getElementById('btnFn1Scan').addEventListener('click', this.scan, false);
     },
     // deviceready Event Handler
     //
@@ -34,7 +35,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        document.getElementById('btnFn1Scan').addEventListener('click', this.scan, false);
+        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -48,7 +49,7 @@ var app = {
         console.log('Received Event: ' + id);
     },
     scan: function () {
-        console.log('scanning');
+        alert('scanning');
 
         var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
