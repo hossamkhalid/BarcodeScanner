@@ -47,39 +47,6 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
-    },
-    scan: function () {
-        alert('scanning');
-
-        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-
-        scanner.scan(function (result) {
-
-            document.getElementById('#page1_txtBarcode').value = result.text;
-
-            
-
-            console.log("Scanner result: \n" +
-                 "text: " + result.text + "\n" +
-                 "format: " + result.format + "\n" +
-                 "cancelled: " + result.cancelled + "\n");
-            document.getElementById("info").innerHTML = result.text;
-            console.log(result);
-        }, function (error) {
-            console.log("Scanning failed: ", error);
-        });
-    },
-
-    encode: function () {
-        var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-
-        scanner.encode(scanner.Encode.TEXT_TYPE, "http://www.nhl.com", function (success) {
-            alert("encode success: " + success);
-        }, function (fail) {
-            alert("encoding failed: " + fail);
-        }
-        );
-
     }
 };
 
@@ -90,7 +57,7 @@ function scan() {
 
     scanner.scan(function (result) {
 
-        document.getElementById('#page1_txtBarcode').value = result.text;
+        document.getElementById('page1_txtBarcode').value = result.text;
 
             
 
