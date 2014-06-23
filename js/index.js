@@ -27,7 +27,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.getElementById('page1_btnScan').addEventListener('click', this.scan, false);
+        //document.getElementById('page1_btnScan').addEventListener('click', scan, false);
     },
     // deviceready Event Handler
     //
@@ -82,6 +82,40 @@ var app = {
 
     }
 };
+
+function scan() {
+    alert('scanning');
+
+    var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+    scanner.scan(function (result) {
+
+        document.getElementById('#page1_txtBarcode').value = result.text;
+
+            
+
+        console.log("Scanner result: \n" +
+             "text: " + result.text + "\n" +
+             "format: " + result.format + "\n" +
+             "cancelled: " + result.cancelled + "\n");
+        document.getElementById("info").innerHTML = result.text;
+        console.log(result);
+    }, function (error) {
+        console.log("Scanning failed: ", error);
+    });
+}
+
+function encode() {
+    var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+    scanner.encode(scanner.Encode.TEXT_TYPE, "http://www.nhl.com", function (success) {
+        alert("encode success: " + success);
+    }, function (fail) {
+        alert("encoding failed: " + fail);
+    }
+    );
+
+}
 
 
 
