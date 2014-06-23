@@ -55,7 +55,7 @@ var app = {
 
         scanner.scan(function (result) {
 
-            $('#page1_txtBarcode').val(result.text);
+            document.getElementById('#page1_txtBarcode').value = result.text;
 
             
 
