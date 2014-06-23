@@ -27,7 +27,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.getElementById('btnFn1Scan').addEventListener('click', this.scan, false);
+        document.getElementById('page1_btnScan').addEventListener('click', this.scan, false);
     },
     // deviceready Event Handler
     //
@@ -55,10 +55,9 @@ var app = {
 
         scanner.scan(function (result) {
 
-            alert("We got a barcode\n" +
-            "Result: " + result.text + "\n" +
-            "Format: " + result.format + "\n" +
-            "Cancelled: " + result.cancelled);
+            $('#page1_txtBarcode').val(result.text);
+
+            
 
             console.log("Scanner result: \n" +
                  "text: " + result.text + "\n" +
