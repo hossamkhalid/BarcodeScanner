@@ -351,7 +351,7 @@ function page3_getcodes() {
             $('#barcodeList').html("");
             for(var i=0;i<msg.length;i++)
             {
-                $("#barcodeList").append('<li><a href="#" id="barcode_' + msg[i].Id + '" onclick="getDetails(' + msg[i].barcode1 + ')">' + msg[i].barcode1 + '</a></li>');
+                $("#barcodeList").append('<li><a href="#" id="barcode_' + msg[i].Id + '" onclick="getDetails(\'' + msg[i].barcode1 + '\')">' + msg[i].barcode1 + '</a></li>');
             }
             $('#barcodeList').listview('refresh');
         },
