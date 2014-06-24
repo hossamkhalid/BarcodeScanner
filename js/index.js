@@ -40,7 +40,6 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        $(document).on("pageshow", "#pageF3", page3_getcodes());
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -107,6 +106,9 @@ function login() {
                 if (msg.HasAccessToFn3) {
                     $("#controlList").append('<li><a href="#" id="ctrF3">Function 3</a></li>');
                     $("#ctrF3").click(function () {
+                        $('#pageF3').on('pageshow', function () {
+                            page3_getcodes();
+                        });
                         $.mobile.changePage("#pageF3", { transition: "slide" });
                     });
                 }
@@ -389,8 +391,7 @@ function deleteBarcode() {
         url: Url,
         success: function (msg) {
             if (msg) {
-                $('#page1MessageText').text("Barcode deleted.");
-                $.mobile.changePage("#page1Message", { role: "dialog" });
+                //do Nothing
             }
             else {
                 $('#page1MessageText').text("Barcode delete failed!");
