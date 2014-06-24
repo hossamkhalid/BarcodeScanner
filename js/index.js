@@ -392,10 +392,10 @@ function deleteBarcode() {
         success: function (msg) {
             if (msg) {
                 //do Nothing
+                $.mobile.changePage("#barcodeDeleted", { role: "dialog" });
             }
             else {
-                $('#page1MessageText').text("Barcode delete failed!");
-                $.mobile.changePage("#page1Message", { role: "dialog" });
+                $.mobile.changePage("#barcodeDeletedError", { role: "dialog" });
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
