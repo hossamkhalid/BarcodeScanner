@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var currentUser;
+var baseUrl = "http://192.168.0.3:81/RestServiceImpl.svc/";
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -50,28 +53,6 @@ var app = {
     }
 };
 
-function scan() {
-    alert('scanning');
-
-    var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-
-    scanner.scan(function (result) {
-
-        document.getElementById('page1_txtBarcode').value = result.text;
-
-            
-
-        console.log("Scanner result: \n" +
-             "text: " + result.text + "\n" +
-             "format: " + result.format + "\n" +
-             "cancelled: " + result.cancelled + "\n");
-        document.getElementById("info").innerHTML = result.text;
-        console.log(result);
-    }, function (error) {
-        console.log("Scanning failed: ", error);
-    });
-}
-
 function encode() {
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
@@ -82,6 +63,179 @@ function encode() {
     }
     );
 
+}
+
+function login() {
+    $.mobile.loading('show', { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
+
+    var username = $('#txtUsername').val();
+    var password = $('#txtPassword').val();
+
+    if (username == "" || password == "")
+    {
+        $('#page1MessageText').text("Username and/or password required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+
+    Url = baseUrl + "Login?username=" + username + "&password=" + password;
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if (msg != "") {
+                currentUser = username;
+                $.mobile.changePage("#controlPage", { transition: "slide" });
+                $("#controlList").html("");
+                if (msg.HasAccessToFn1) {
+                    $("#controlList").append('<li><a href="#" id="ctrF1">Function 1</a></li>');
+                    $("#ctrF1").click(function () {
+                        $.mobile.changePage("#pageF1", { transition: "slide" });
+                    });
+                }
+
+                if (msg.HasAccessToFn2) {
+                    $("#controlList").append('<li><a href="#" id="ctrF2">Function 2</a></li>');
+                    $("#ctrF2").click(function () {
+                        $.mobile.changePage("#pageF2", { transition: "slide" });
+                    });
+                }
+
+                if (msg.HasAccessToFn3) {
+                    $("#controlList").append('<li><a href="#" id="ctrF3">Function 3</a></li>');
+                    $("#ctrF3").click(function () {
+                        $.mobile.changePage("#pageF3", { transition: "slide" });
+                    });
+                }
+
+                if (msg.HasAccessToFn4) {
+                    $("#controlList").append('<li><a href="#" id="ctrF4">Function 4</a></li>');
+                    $("#ctrF4").click(function () {
+                        $.mobile.changePage("#pageF4", { transition: "slide" });
+                    });
+                }
+
+                if (msg.HasAccessToFn5) {
+                    $("#controlList").append('<li><a href="#" id="ctrF5">Function 1</a></li>');
+                }
+
+                if (msg.HasAccessToFn6) {
+                    $("#controlList").append('<li><a href="#" id="ctrF6">Function 1</a></li>');
+                }
+
+                if (msg.HasAccessToFn7) {
+                    $("#controlList").append('<li><a href="#" id="ctrF7">Function 1</a></li>');
+                }
+
+                if (msg.HasAccessToFn8) {
+                    $("#controlList").append('<li><a href="#" id="ctrF8">Function 1</a></li>');
+                }
+
+                $('#controlList').listview('refresh');
+            }
+            else {
+                $.mobile.changePage("#loginError", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });
+    $.mobile.loading('hide');//, { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
+
+}
+
+function page1_scan() {
+    var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+    scanner.scan(function (result) {
+        document.getElementById('page1_txtBarcode').value = result.text;
+        document.getElementById("info").innerHTML = result.text;
+        console.log(result);
+    }, function (error) {
+        $.mobile.changePage("#scanError", { role: "dialog" });
+    });
+}
+
+function page1_barcodeValidate() {
+    var code = $('#page1_txtBarcode').val();
+
+    if (code == "") {
+        $('#page1MessageText').text("Barcode field is required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+    
+    
+    Url = baseUrl + "ValidateCode?code=" + code;
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if(msg)
+            {
+                $('#page1_txtCode').val(code);
+                $('#page1_txtBarcode').val("");
+                $('#page1MessageText').text("Barcode validated.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+                $('#page1_btnSave').attr("disabled", false);
+            }
+            else
+            {
+                $('#page1MessageText').text("Barcode exists!");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });
+}
+
+function page1_barcodeSave() {
+    var code = $('#page1_txtCode').val();
+    var email = $('#page1_txtEmail').val();
+    var username = currentUser;
+    var date = new Date();
+
+    if (email == "") {
+        $('#page1MessageText').text("Email field is required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+
+    if (code == "") {
+        $('#page1MessageText').text("Barcode field is required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+
+    Url = baseUrl + "SaveCode?code=" + code + "&email=" + email + "&username=" + username;
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if (msg) {
+                $('#page1MessageText').text("Barcode saved.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+
+                $('#page1_txtEmail').val("");
+                $('#page1_txtCode').val("");
+                $('#page1_btnSave').attr("disabled", true);
+            }
+            else {
+                $('#page1MessageText').text("Failed to save barcode.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $('#page1MessageText').text(errorThrown);
+            $.mobile.changePage("#page1Message", { role: "dialog" });
+        }
+    });
 }
 
 

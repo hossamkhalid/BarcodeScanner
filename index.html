@@ -41,13 +41,13 @@
         <div data-role="header" data-theme="b">
             <h1>Barcode App</h1>
         </div>
-
+        
         <div data-role="main" class="ui-content">
 
             <div class="app">
                 <form>
                     <label for="text-3">Username</label>
-                    <input type="text" data-clear-btn="true" name="txtUsername" id="txtUsername" value="" placeholder="Username">
+                    <input type="text" data-clear-btn="true" name="txtUsername" id="txtUsername" value="" placeholder="Username" required>
                     <br />
                     <label for="password-2">Password</label>
                     <input type="password" data-clear-btn="true" name="txtPassword" id="txtPassword" value="" autocomplete="off" placeholder="Password">
@@ -59,112 +59,80 @@
             <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript">
                 app.initialize();
-
-                function login() {
-                    var username = $('#txtUsername').val();
-                    var password = $('#txtPassword').val();
-
-                    Url = "http://192.168.0.3:81/RestServiceImpl.svc/Login?username=" + username + "&password=" + password;
-
-                    $.ajax({
-                        type: "GET",
-                        url: Url,
-                        success: function (msg) {
-                            if (msg != "") {
-                                $.mobile.changePage("#controlPage", { transition: "slide" });
-                                $("#controlList").html("");
-                                if (msg.HasAccessToFn1) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF1">Acura1</a></li>');
-                                    $("#ctrF1").click(function () {
-                                        $.mobile.changePage("#pageF1", { transition: "slide" });
-                                    });
-                                }
-
-                                if (msg.HasAccessToFn2) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF2">Acura2</a></li>');
-                                    $("#ctrF2").click(function () {
-                                        $.mobile.changePage("#pageF2", { transition: "slide" });
-                                    });
-                                }
-
-                                if (msg.HasAccessToFn3) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF3">Acura3</a></li>');
-                                    $("#ctrF3").click(function () {
-                                        $.mobile.changePage("#pageF3", { transition: "slide" });
-                                    });
-                                }
-
-                                if (msg.HasAccessToFn4) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF4">Acura4</a></li>');
-                                    $("#ctrF4").click(function () {
-                                        $.mobile.changePage("#pageF4", { transition: "slide" });
-                                    });
-                                }
-
-                                if (msg.HasAccessToFn5) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF5">Acura5</a></li>');
-                                }
-
-                                if (msg.HasAccessToFn6) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF6">Acura6</a></li>');
-                                }
-
-                                if (msg.HasAccessToFn7) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF7">Acura7</a></li>');
-                                }
-
-                                if (msg.HasAccessToFn8) {
-                                    $("#controlList").append('<li><a href="#" id="ctrF8">Acura8</a></li>');
-                                }
-
-                                $('#controlList').listview('refresh');
-                            }
-                            else {
-                                $("#loginError").dialog().fadeIn();
-                                $("#loginError").click(function () {
-                                    $("#loginError").dialog().fadeOut();
-                                });
-                            }
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            $('#error').html(XMLHttpRequest.responseText);
-                        }
-                    });
-                }
-
-                function ServiceFailed(result) {
-                    alert('Service call failed: ' + result.status + '' + result.statusText);
-                    Type = null;
-                    varUrl = null;
-                    Data = null;
-                    ContentType = null;
-                    DataType = null;
-                    ProcessData = null;
-                }
             </script>
         </div>
     </div>
-    <div data-role="dialog" id="loginError">Incorrect username/password!</div>
+    <div data-role="page" id="loginError" data-close-btn="bottom">
+        <div data-role="header">
+            <h2>Login Error</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <p>Incorrect username/password!</p>
+            <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button">Ok</a>
+        </div>
+    </div>
     <div data-role="page" id="controlPage">
         <div data-role="header" data-theme="b">
             <h1>Barcode App</h1>
         </div>
-        <ul data-role="listview" data-inset="true" style="margin: 10px;" id="controlList"></ul>
+        <div data-role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" style="margin: 10px;" id="controlList"></ul>
+        </div>
     </div>
     <div data-role="page" id="pageF1">
         <div data-role="header" data-theme="b">
             <h1>Barcode App</h1>
         </div>
-        <label for="page1_txtBarcode">Barcode</label>
-        <input type="text" data-clear-btn="true" name="page1_txtBarcode" id="page1_txtBarcode" value="" placeholder="Barcode">
-        <a class="ui-btn ui-btn-b ui-corner-all" id="page1_btnScan" onclick="scan()">Scan</a>
-        <br />
+        <div data-role="main" class="ui-content">
+            <div style="width: 70%;">
+                
+            </div>
+            <div style="margin-right:5px; padding-top: 14px;">
+                
+            </div>
+            <label for="page1_txtBarcode">Barcode</label>
+            <input type="text" data-clear-btn="true" name="page1_txtBarcode" id="page1_txtBarcode" value="" placeholder="Barcode">
+            <a data-ajax=false data-icon="camera" data-role="button" data-inline="true" data-theme="b" id="page1_btnScan" onclick="page1_scan()">Scan</a>
+            <a data-ajax=false data-icon="check" data-role="button" data-inline="true" data-theme="b" id="page1_btnValidate" onclick="page1_barcodeValidate()">Validate</a>
+            <br />
+            <br />
+            <label for="text-3">Email</label>
+            <input type="email" data-clear-btn="true" name="page1_txtEmail" id="page1_txtEmail" value="" placeholder="Email" class="required">
+            <br />
+            <label for="text-3">Barcode</label>
+            <input type="text" name="page1_txtCode" id="page1_txtCode" value="" placeholder="Barcode" readonly>
+            <br />
+            <a class="ui-btn ui-btn-b ui-corner-all" id="page1_btnSave" onclick="page1_barcodeSave()" disabled="true">Save</a>  
+        </div>       
     </div>
     <div data-role="page" id="pageF2">
         <div data-role="header" data-theme="b">
             <h1>Barcode App</h1>
         </div>
-        Function 2
+        <div data-role="main" class="ui-content">
+            <div style="width: 70%;">
+
+            </div>
+            <div style="margin-right:5px; padding-top: 14px;">
+
+            </div>
+            <label for="page2_txtBarcode">Barcode</label>
+            <input type="text" data-clear-btn="true" name="page2_txtBarcode" id="page2_txtBarcode" value="" placeholder="Barcode">
+            <a data-ajax=false data-icon="camera" data-role="button" data-inline="true" data-theme="b" id="page2_btnScan" onclick="page1_scan()">Scan</a>
+            <a data-ajax=false data-icon="check" data-role="button" data-inline="true" data-theme="b" id="page2_btnRetrieve" onclick="page1_barcodeRetrieve()">Retrieve</a>
+            <br />
+            <br />
+            <label for="text-3">Date</label>
+            <input type="date" name="page2_txtDate" id="page2_txtDate" value="" placeholder="Date">
+            <br />
+            <label for="text-3">Email</label>
+            <input type="email" data-clear-btn="true" name="page2_txtEmail" id="page2_txtEmail" value="" placeholder="Email">
+            <br />
+            <label for="text-3">Barcode</label>
+            <input type="text" name="page2_txtCode" id="page2_txtCode" value="" placeholder="Barcode" readonly>
+            <br />
+            <a class="ui-btn ui-btn-b ui-corner-all" id="page2_btnSave" onclick="page1_barcodeUpdate()">Update</a>
+        </div>
     </div>
     <div data-role="page" id="pageF3">
         <div data-role="header" data-theme="b">
@@ -177,6 +145,33 @@
             <h1>Barcode App</h1>
         </div>
         Function 4
+    </div>
+    <div data-role="page" id="page1Message" data-close-btn="bottom">
+        <div data-role="header">
+            <h2>Barcode App</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <p id="page1MessageText"></p>
+            <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button">Ok</a>
+        </div>
+    </div>
+    <div data-role="page" id="connectionError" data-close-btn="bottom">
+        <div data-role="header">
+            <h2>Barcode App</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <p>Cannot contact server!</p>
+            <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button">Ok</a>
+        </div>
+    </div>
+    <div data-role="page" id="scanError" data-close-btn="bottom">
+        <div data-role="header">
+            <h2>Barcode App</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <p>Scan error!</p>
+            <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button">Ok</a>
+        </div>
     </div>
 </body>
 </html>
