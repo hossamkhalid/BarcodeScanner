@@ -135,13 +135,46 @@
         <div data-role="header" data-theme="b">
             <h1>Barcode App</h1>
         </div>
-        Function 3
+        <div data-role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" style="margin: 10px;" id="barcodeList" data-filter="true"></ul>
+        </div>
     </div>
     <div data-role="page" id="pageF4">
         <div data-role="header" data-theme="b">
             <h1>Barcode App</h1>
         </div>
         Function 4
+    </div>
+    <div data-role="page" id="barcodeDetails">
+        <div data-role="header" data-theme="b">
+            <h1>Barcode App</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <fieldset data-role="fieldcontain">
+                <label for="barcodeDetails_txtCode">Barcode</label>
+                <input type="text" name="barcodeDetails_txtCode" id="barcodeDetails_txtCode" value="" placeholder="Barcode" readonly>
+            </fieldset>
+            <fieldset data-role="fieldcontain">
+                <label for="barcodeDetails_txtEmail">Email</label>
+                <input type="email" name="barcodeDetails_txtEmail" id="barcodeDetails_txtEmail" value="" placeholder="Email" readonly>
+            </fieldset>
+            <fieldset data-role="fieldcontain">
+                <label for="barcodeDetails_txtDate">Date</label>
+                <input type="datetime" name="barcodeDetails_txtDate" id="barcodeDetails_txtDate" value="" placeholder="Date" readonly>
+            </fieldset>
+            <fieldset data-role="fieldcontain">
+                <label for="barcodeDetails_txtUser">User</label>
+                <input type="text" name="barcodeDetails_txtUser" id="barcodeDetails_txtUser" value="" placeholder="User" readonly>
+            </fieldset>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a data-role="button" data-icon="arrow-l" id="barcodeDetails_btnBack" data-rel="back" data-theme="b">Back</a>
+                </div>
+                <div class="ui-block-b">
+                    <a data-role="button" data-icon="delete" id="barcodeDetails_btnDelete" data-theme="b" onclick="confirmDeleteBarcode()">Delete</a>
+                </div>
+            </div>
+        </div>
     </div>
     <div data-role="page" id="page1Message" data-close-btn="bottom">
         <div data-role="header">
@@ -168,6 +201,32 @@
         <div role="main" class="ui-content">
             <p>Scan error!</p>
             <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button">Ok</a>
+        </div>
+    </div>
+    <div data-role="page" id="confirmDelete" data-close-btn="bottom">
+        <div data-role="header">
+            <h2>Barcode App</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <p id="confirmDelete_text"></p>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button">Cancel</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#loginPage" data-icon="delete" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button" onclick="deleteBarcode()">Delete</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div data-role="page" id="barcodeDeleted" data-close-btn="bottom">
+        <div data-role="header">
+            <h2>Barcode App</h2>
+        </div>
+        <div role="main" class="ui-content">
+            <p>Barcode deleted</p>
+            <a href="#loginPage" data-role="button" data-rel="back" data-theme="b" class="ui-link ui-btn ui-btn-b ui-shadow ui-corner-all" role="button" onclick="history.go(-1);">Ok</a>
         </div>
     </div>
 </body>

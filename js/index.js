@@ -19,6 +19,7 @@
 var currentUser;
 var baseUrl = "http://192.168.0.3:81/RestServiceImpl.svc/";
 var connectionErrorMessage = "Cannot connect to server!";
+var barcodes;
 
 var app = {
     // Application Constructor
@@ -39,7 +40,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        
+        $(document).on("pageshow", "#pageF3", page3_getcodes());
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -326,5 +327,80 @@ function page1_barcodeUpdate()
     });
 }
 
+function page3_getcodes() {
+    Url = baseUrl + "GetAllBarcodes";
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            $('#barcodeList').html("");
+            for(var i=0;i<msg.length;i++)
+            {
+                $("#barcodeList").append('<li><a href="#" id="barcode_' + msg[i].Id + '" onclick="getDetails(' + msg[i].barcode1 + ')">' + msg[i].barcode1 + '</a></li>');
+            }
+            $('#barcodeList').listview('refresh');
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });
+}
+
+function getDetails(barcode)
+{
+    Url = baseUrl + "GetCode?code=" + barcode;
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if (msg != "") {
+                $('#barcodeDetails_txtCode').val(msg.barcode1);
+                $('#barcodeDetails_txtEmail').val(msg.email);
+                
+                var dt = new Date(parseInt(msg.barcode_date.replace('/Date(', '')));
+                $('#barcodeDetails_txtDate').val(dt.toDateString());
+                $('#barcodeDetails_txtUser').val(msg.username);
+                
+                $.mobile.changePage("#barcodeDetails", { transition: "slide" });
+            }
+            else {
+                $('#page1MessageText').text("Barcode does not exist!");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });   
+}
+
+function confirmDeleteBarcode()
+{
+    $('#confirmDelete_text').html("Are you sure you want to delete barcode value " + $('#barcodeDetails_txtCode').val());
+    $.mobile.changePage("#confirmDelete", { role: "dialog" });
+}
+
+function deleteBarcode() {
+    Url = baseUrl + "DeleteCode?code=" + $('#barcodeDetails_txtCode').val();
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if (msg) {
+                $('#page1MessageText').text("Barcode deleted.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+            else {
+                $('#page1MessageText').text("Barcode delete failed!");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });
+}
 
 
