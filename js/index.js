@@ -154,9 +154,16 @@ function page1_scan() {
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
     scanner.scan(function (result) {
-        document.getElementById('page1_txtBarcode').value = result.text;
-        document.getElementById("info").innerHTML = result.text;
-        console.log(result);
+        if (result.format == "QR_CODE" || result.format == "DATA_MATRIX" || result.format == "PDF417" || result.format == "RSS_EXPANDED")
+        {
+            $.mobile.changePage("#scanError", { role: "dialog" });
+        }
+        else
+        {
+            document.getElementById('page1_txtBarcode').value = result.text;
+            document.getElementById("info").innerHTML = result.text;
+            console.log(result);
+        }
     }, function (error) {
         $.mobile.changePage("#scanError", { role: "dialog" });
     });
@@ -243,9 +250,14 @@ function page2_scan() {
     var scanner = cordova.require("cordova/plugin/BarcodeScanner");
 
     scanner.scan(function (result) {
-        document.getElementById('page2_txtBarcode').value = result.text;
-        document.getElementById("info").innerHTML = result.text;
-        console.log(result);
+        if (result.format == "QR_CODE" || result.format == "DATA_MATRIX" || result.format == "PDF417" || result.format == "RSS_EXPANDED") {
+            $.mobile.changePage("#scanError", { role: "dialog" });
+        }
+        else {
+            document.getElementById('page2_txtBarcode').value = result.text;
+            document.getElementById("info").innerHTML = result.text;
+            console.log(result);
+        }
     }, function (error) {
         $.mobile.changePage("#scanError", { role: "dialog" });
     });
