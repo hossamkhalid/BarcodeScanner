@@ -18,6 +18,7 @@
  */
 var currentUser;
 var baseUrl = "http://192.168.0.3:81/RestServiceImpl.svc/";
+var connectionErrorMessage = "Cannot connect to server!";
 
 var app = {
     // Application Constructor
@@ -198,7 +199,6 @@ function page1_barcodeSave() {
     var code = $('#page1_txtCode').val();
     var email = $('#page1_txtEmail').val();
     var username = currentUser;
-    var date = new Date();
 
     if (email == "") {
         $('#page1MessageText').text("Email field is required!");
@@ -224,7 +224,6 @@ function page1_barcodeSave() {
 
                 $('#page1_txtEmail').val("");
                 $('#page1_txtCode').val("");
-                $('#page1_btnSave').attr("disabled", true);
             }
             else {
                 $('#page1MessageText').text("Failed to save barcode.");
@@ -232,8 +231,97 @@ function page1_barcodeSave() {
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            $('#page1MessageText').text(errorThrown);
-            $.mobile.changePage("#page1Message", { role: "dialog" });
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });
+}
+
+function page2_scan() {
+    var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+
+    scanner.scan(function (result) {
+        document.getElementById('page2_txtBarcode').value = result.text;
+        document.getElementById("info").innerHTML = result.text;
+        console.log(result);
+    }, function (error) {
+        $.mobile.changePage("#scanError", { role: "dialog" });
+    });
+}
+
+function page2_barcodeRetrieve()
+{
+    var code = $('#page2_txtBarcode').val();
+
+    if (code == "") {
+        $('#page1MessageText').text("Barcode field is required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+
+
+    Url = baseUrl + "GetCode?code=" + code;
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if (msg != "") {
+                $('#page2_txtCode').val(code);
+                $('#page2_txtBarcode').val("");
+                $('#page2_txtEmail').val(msg.email);
+                $('#page1MessageText').text("Barcode retrieved.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+                $('#page1_btnSave').attr("disabled", false);
+            }
+            else {
+                $('#page1MessageText').text("Barcode does not exist!");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
+        }
+    });
+}
+
+function page1_barcodeUpdate()
+{
+    var code = $('#page2_txtCode').val();
+    var email = $('#page2_txtEmail').val();
+    var username = currentUser;
+
+    if (email == "") {
+        $('#page1MessageText').text("Email field is required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+
+    if (code == "") {
+        $('#page1MessageText').text("Barcode field is required!");
+        $.mobile.changePage("#page1Message", { role: "dialog" });
+        return false;
+    }
+
+    Url = baseUrl + "UpdateCode?code=" + code + "&email=" + email + "&username=" + username;
+
+    $.ajax({
+        type: "GET",
+        url: Url,
+        success: function (msg) {
+            if (msg) {
+                $('#page1MessageText').text("Barcode saved.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+
+                $('#page2_txtEmail').val("");
+                $('#page2_txtCode').val("");
+            }
+            else {
+                $('#page1MessageText').text("Failed to update barcode.");
+                $.mobile.changePage("#page1Message", { role: "dialog" });
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            $.mobile.changePage("#connectionError", { role: "dialog" });
         }
     });
 }
