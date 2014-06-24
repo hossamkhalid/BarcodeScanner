@@ -3,10 +3,10 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.phonegap.ryanw.barcodedemo"
         version   = "2.0.0">
-    <name>Barcode Scanner App</name>
+    <name>Scanner Demo</name>
 
     <description>
-        
+        Scans barcodes.
     </description>
 
     <author href="http://phonegap.com" email="hossamkhalid@gmail.com">
