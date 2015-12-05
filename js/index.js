@@ -85,6 +85,12 @@ function login() {
         type: "GET",
         url: Url,
         success: function (msg) {
+			currentUser = username;
+			$("#controlList").append('<li><a href="#" id="ctrF1">Function 1</a></li>');
+			$("#ctrF1").click(function () {
+				$.mobile.changePage("#pageF1", { transition: "slide" });
+			});
+			/*
             if (msg != "") {
                 currentUser = username;
                 $.mobile.changePage("#controlPage", { transition: "slide" });
@@ -141,6 +147,7 @@ function login() {
             else {
                 $.mobile.changePage("#loginError", { role: "dialog" });
             }
+			*/
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             $.mobile.changePage("#connectionError", { role: "dialog" });
