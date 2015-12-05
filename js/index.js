@@ -78,7 +78,13 @@ function login() {
         $.mobile.changePage("#page1Message", { role: "dialog" });
         return false;
     }
-
+	
+	currentUser = username;
+	$("#controlList").append('<li><a href="#" id="ctrF1">Function 1</a></li>');
+	$("#ctrF1").click(function () {
+		$.mobile.changePage("#pageF1", { transition: "slide" });
+	});
+	/*
     Url = baseUrl + "Login?username=" + username + "&password=" + password;
 
     $.ajax({
@@ -90,7 +96,7 @@ function login() {
 			$("#ctrF1").click(function () {
 				$.mobile.changePage("#pageF1", { transition: "slide" });
 			});
-			/*
+			
             if (msg != "") {
                 currentUser = username;
                 $.mobile.changePage("#controlPage", { transition: "slide" });
@@ -147,7 +153,7 @@ function login() {
             else {
                 $.mobile.changePage("#loginError", { role: "dialog" });
             }
-			*/
+			
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             //$.mobile.changePage("#connectionError", { role: "dialog" });
@@ -158,6 +164,7 @@ function login() {
 			});
         }
     });
+	*/
     $.mobile.loading('hide');//, { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
 
 }
