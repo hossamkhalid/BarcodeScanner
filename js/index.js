@@ -67,6 +67,7 @@ function encode() {
 }
 
 function login() {
+	alert("yes");
     $.mobile.loading('show', { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
 
     var username = $('#txtUsername').val();
@@ -84,6 +85,12 @@ function login() {
 	$("#ctrF1").click(function () {
 		$.mobile.changePage("#pageF1", { transition: "slide" });
 	});
+	$("#controlList").append('<li><a href="#" id="ctrF2">Function 2</a></li>');
+	$("#ctrF2").click(function () {
+		$.mobile.changePage("#pageF2", { transition: "slide" });
+	});
+	alert("Go");
+	$('#controlList').listview('refresh');
 	/*
     Url = baseUrl + "Login?username=" + username + "&password=" + password;
 
