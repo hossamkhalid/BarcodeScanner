@@ -150,7 +150,12 @@ function login() {
 			*/
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            $.mobile.changePage("#connectionError", { role: "dialog" });
+            //$.mobile.changePage("#connectionError", { role: "dialog" });
+			currentUser = username;
+			$("#controlList").append('<li><a href="#" id="ctrF1">Function 1</a></li>');
+			$("#ctrF1").click(function () {
+				$.mobile.changePage("#pageF1", { transition: "slide" });
+			});
         }
     });
     $.mobile.loading('hide');//, { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
