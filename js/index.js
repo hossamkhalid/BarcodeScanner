@@ -81,6 +81,7 @@ function login() {
     }
 	
 	currentUser = username;
+	$.mobile.changePage("#controlPage", { transition: "slide" });
 	$("#controlList").append('<li><a href="#" id="ctrF1">Function 1</a></li>');
 	$("#ctrF1").click(function () {
 		$.mobile.changePage("#pageF1", { transition: "slide" });
