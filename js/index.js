@@ -89,8 +89,16 @@ function login() {
 	$("#ctrF2").click(function () {
 		$.mobile.changePage("#pageF2", { transition: "slide" });
 	});
+	$("#controlList").append('<li><a href="#" id="ctrF3">Function 3</a></li>');
+	$("#ctrF3").click(function () {
+		$('#pageF3').on('pageshow', function () {
+			page3_getcodes();
+		});
+		$.mobile.changePage("#pageF3", { transition: "slide" });
+	});
 	alert("Go");
 	$('#controlList').listview('refresh');
+	$.mobile.loading('hide');
 	/*
     Url = baseUrl + "Login?username=" + username + "&password=" + password;
 
@@ -172,7 +180,7 @@ function login() {
         }
     });
 	*/
-    $.mobile.loading('hide');//, { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
+    //, { theme: "a", text: "Please wait...", textonly: false, textVisible: true });
 
 }
 
